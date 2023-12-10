@@ -1,13 +1,7 @@
-import { NavLink } from 'react-router-dom';
-
 const Header = () => {
   return (
-    <header>
-      <nav>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/about">About</NavLink>
-        <NavLink to="/contact">Contact</NavLink>
-      </nav>
+    <header className="bg-white shadow-sm p-7 fixed top-0 left-0 w-full">
+      <h1>Valorant infos</h1>
     </header>
   );
 };

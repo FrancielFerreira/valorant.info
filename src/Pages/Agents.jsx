@@ -1,34 +1,34 @@
 import React from 'react';
+import useFetch from '../Hooks/useFetch';
+import { GET_AGENTS } from '../api/api';
+import Loading from '../Components/Helper/Loading';
+import Error from '../Components/Helper/Error';
+import Card from '../Components/Card';
+
 const Agents = () => {
-  const [agents, setAgents] = React.useState('');
+  const { data, loading, error, request } = useFetch();
 
   React.useEffect(() => {
     async function fetchAgents() {
-      const data = await fetch(
-        'https://valorant-api.com/v1/agents?language=pt-BR&isPlayableCharacter=true',
-      );
-      const res = await data;
-      const json = await res.json();
-      setAgents(json.data);
+      const { url, options } = GET_AGENTS();
+      await request(url, options);
     }
     fetchAgents();
-  }, []);
-  return (
-    <>
-      <h1 className="text-amber-400">Agentes</h1>
-      <ul className="flex flex-wrap gap-5 list-none">
-        {agents &&
-          agents.map((agent) => (
-            <li key={agent.uuid} className="shadow-lg rounded-md">
-              <div>
-                <img src={agent.displayIcon} alt={agent.description} />
-              </div>
-              <h2 className="p-5">{agent.displayName}</h2>
-            </li>
-          ))}
-      </ul>
-    </>
-  );
+  }, [request]);
+
+  if (error) return <Error error={error} />;
+  if (loading) return <Loading />;
+  if (data)
+    return (
+      <>
+        <h1 className="text-red-500 text-3xl font-bold">Agentes</h1>
+        <ul className="grid gap-4 grid-cols-4 list-none">
+          {data &&
+            data.data.map((agent) => <Card key={agent.uuid} data={agent} />)}
+        </ul>
+      </>
+    );
+  else return null;
 };
 
 export default Agents;
