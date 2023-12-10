@@ -1,10 +1,10 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import Page404 from './Pages/Page404.jsx';
 import Home from './Pages/Home.jsx';
 import Contact from './Pages/Contact.jsx';
 import About from './Pages/About.jsx';
+import Agents from './Pages/Agents.jsx';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 const routers = createBrowserRouter([
@@ -16,6 +16,10 @@ const routers = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
+      },
+      {
+        path: '/agentes',
+        element: <Agents />,
       },
       {
         path: '/contact',
@@ -30,7 +34,5 @@ const routers = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={routers} />
-  </React.StrictMode>,
+  <RouterProvider router={routers} />,
 );
