@@ -4,9 +4,18 @@ import { GET_AGENTS } from '../api/api';
 import Loading from '../Components/Helper/Loading';
 import Error from '../Components/Helper/Error';
 import Card from '../Components/Card';
+import ListControls from '../Components/ListControls';
+import {
+  DATE_SORT_OPTIONS,
+  filterByText,
+  getValidDateValue,
+  sortItems,
+} from '../utils/listFilters';
 
 const Agents = () => {
   const { data, loading, error, request } = useFetch();
+  const [search, setSearch] = React.useState('');
+  const [sort, setSort] = React.useState('az');
 
   React.useEffect(() => {
     async function fetchAgents() {
@@ -18,7 +27,13 @@ const Agents = () => {
 
   if (error) return <Error error={error} />;
   if (loading) return <Loading />;
-  if (data)
+  if (data) {
+    const agents = sortItems(
+      filterByText(data.data, search, ['displayName', 'description']),
+      sort,
+      (agent) => getValidDateValue(agent.releaseDate),
+    );
+
     return (
       <section className="space-y-6">
         <div>
@@ -29,8 +44,16 @@ const Agents = () => {
             Agentes
           </h1>
         </div>
+        <ListControls
+          search={search}
+          onSearchChange={setSearch}
+          sort={sort}
+          onSortChange={setSort}
+          sortOptions={DATE_SORT_OPTIONS}
+          placeholder="Buscar agente"
+        />
         <ul className="grid list-none gap-5 sm:grid-cols-2 xl:grid-cols-3">
-          {data.data.map((agent) => (
+          {agents.map((agent) => (
             <Card
               key={agent.uuid}
               data={agent}
@@ -45,6 +68,7 @@ const Agents = () => {
         </ul>
       </section>
     );
+  }
   else return null;
 };
 
