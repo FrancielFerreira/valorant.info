@@ -6,6 +6,8 @@ const links = [
   { to: '/mapas', label: 'Mapas' },
   { to: '/modos', label: 'Modos' },
   { to: '/armas', label: 'Armas' },
+  { to: '/skins', label: 'Skins' },
+  { to: '/sprays', label: 'Sprays' },
 ];
 
 const Aside = () => {

@@ -16,3 +16,12 @@
 - [x] Tornar cards de agentes navegaveis.
 - [x] Exibir descricao, funcao e habilidades do agente.
 - [x] Rodar validacao final.
+
+## Feature: skins e sprays
+
+- [x] Criar branch `feature/skins-sprays`.
+- [x] Adicionar rotas `/skins`, `/skins/:skinId`, `/sprays` e `/sprays/:sprayId`.
+- [x] Criar listagem de skins com filtro por arma.
+- [x] Criar listagem de sprays com filtro por tipo.
+- [x] Criar paginas de detalhe para skins e sprays.
+- [x] Rodar validacao final.
