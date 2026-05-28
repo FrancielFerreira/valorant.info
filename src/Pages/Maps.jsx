@@ -4,9 +4,13 @@ import { GET_MAPS } from '../api/api';
 import Loading from '../Components/Helper/Loading';
 import Error from '../Components/Helper/Error';
 import Card from '../Components/Card';
+import ListControls from '../Components/ListControls';
+import { ALPHA_SORT_OPTIONS, filterByText, sortItems } from '../utils/listFilters';
 
 const Maps = () => {
   const { data, loading, error, request } = useFetch();
+  const [search, setSearch] = React.useState('');
+  const [sort, setSort] = React.useState('az');
 
   React.useEffect(() => {
     async function fetchMaps() {
@@ -20,6 +24,15 @@ const Maps = () => {
   if (loading) return <Loading />;
   if (!data) return null;
 
+  const maps = sortItems(
+    filterByText(data.data, search, [
+      'displayName',
+      'tacticalDescription',
+      'narrativeDescription',
+    ]),
+    sort,
+  );
+
   return (
     <section className="space-y-6">
       <div>
@@ -28,8 +41,16 @@ const Maps = () => {
         </p>
         <h1 className="mt-2 font-display text-5xl uppercase text-white">Mapas</h1>
       </div>
+      <ListControls
+        search={search}
+        onSearchChange={setSearch}
+        sort={sort}
+        onSortChange={setSort}
+        sortOptions={ALPHA_SORT_OPTIONS}
+        placeholder="Buscar mapa"
+      />
       <ul className="grid list-none gap-5 sm:grid-cols-2 xl:grid-cols-3">
-        {data.data.map((map) => (
+        {maps.map((map) => (
           <Card
             key={map.uuid}
             data={map}

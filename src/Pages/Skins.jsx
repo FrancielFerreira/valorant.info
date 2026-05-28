@@ -4,6 +4,8 @@ import { GET_CONTENT_TIERS, GET_WEAPONS } from '../api/api';
 import Loading from '../Components/Helper/Loading';
 import Error from '../Components/Helper/Error';
 import Card from '../Components/Card';
+import ListControls from '../Components/ListControls';
+import { ALPHA_SORT_OPTIONS, filterByText, sortItems } from '../utils/listFilters';
 
 function createTierMap(tiers) {
   return new Map(tiers.map((tier) => [tier.uuid, tier]));
@@ -29,6 +31,8 @@ const Skins = () => {
     request: requestTiers,
   } = tiersFetch;
   const [selectedWeapon, setSelectedWeapon] = React.useState('Vandal');
+  const [search, setSearch] = React.useState('');
+  const [sort, setSort] = React.useState('az');
 
   React.useEffect(() => {
     async function fetchSkinsData() {
@@ -51,7 +55,14 @@ const Skins = () => {
   const tierMap = createTierMap(tiersData.data);
   const activeWeapon =
     weapons.find((weapon) => weapon.displayName === selectedWeapon) || weapons[0];
-  const skins = activeWeapon.skins.filter((skin) => getSkinImage(skin));
+  const skins = sortItems(
+    filterByText(
+      activeWeapon.skins.filter((skin) => getSkinImage(skin)),
+      search,
+      ['displayName'],
+    ),
+    sort,
+  );
 
   return (
     <section className="space-y-6">
@@ -81,6 +92,15 @@ const Skins = () => {
           </button>
         ))}
       </div>
+
+      <ListControls
+        search={search}
+        onSearchChange={setSearch}
+        sort={sort}
+        onSortChange={setSort}
+        sortOptions={ALPHA_SORT_OPTIONS}
+        placeholder="Buscar skin da arma selecionada"
+      />
 
       <ul className="grid list-none gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {skins.map((skin) => {

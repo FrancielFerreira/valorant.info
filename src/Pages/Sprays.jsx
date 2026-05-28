@@ -4,6 +4,8 @@ import { GET_SPRAYS } from '../api/api';
 import Loading from '../Components/Helper/Loading';
 import Error from '../Components/Helper/Error';
 import Card from '../Components/Card';
+import ListControls from '../Components/ListControls';
+import { ALPHA_SORT_OPTIONS, filterByText, sortItems } from '../utils/listFilters';
 
 function getSprayImage(spray) {
   return spray.fullTransparentIcon || spray.fullIcon || spray.displayIcon;
@@ -18,6 +20,8 @@ const filters = [
 const Sprays = () => {
   const { data, loading, error, request } = useFetch();
   const [filter, setFilter] = React.useState('all');
+  const [search, setSearch] = React.useState('');
+  const [sort, setSort] = React.useState('az');
 
   React.useEffect(() => {
     async function fetchSprays() {
@@ -31,14 +35,21 @@ const Sprays = () => {
   if (loading) return <Loading />;
   if (!data) return null;
 
-  const sprays = data.data
-    .filter((spray) => !spray.isNullSpray && getSprayImage(spray))
-    .filter((spray) => {
-      const isAnimated = Boolean(spray.animationGif || spray.animationPng);
-      if (filter === 'animated') return isAnimated;
-      if (filter === 'static') return !isAnimated;
-      return true;
-    });
+  const sprays = sortItems(
+    filterByText(
+      data.data
+        .filter((spray) => !spray.isNullSpray && getSprayImage(spray))
+        .filter((spray) => {
+          const isAnimated = Boolean(spray.animationGif || spray.animationPng);
+          if (filter === 'animated') return isAnimated;
+          if (filter === 'static') return !isAnimated;
+          return true;
+        }),
+      search,
+      ['displayName'],
+    ),
+    sort,
+  );
 
   return (
     <section className="space-y-6">
@@ -65,6 +76,15 @@ const Sprays = () => {
           </button>
         ))}
       </div>
+
+      <ListControls
+        search={search}
+        onSearchChange={setSearch}
+        sort={sort}
+        onSortChange={setSort}
+        sortOptions={ALPHA_SORT_OPTIONS}
+        placeholder="Buscar spray"
+      />
 
       <ul className="grid list-none gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {sprays.map((spray) => (

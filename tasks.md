@@ -25,3 +25,12 @@
 - [x] Criar listagem de sprays com filtro por tipo.
 - [x] Criar paginas de detalhe para skins e sprays.
 - [x] Rodar validacao final.
+
+## Feature: filtros de listagem
+
+- [x] Criar branch `feature/list-filters`.
+- [x] Adicionar busca por texto nas abas principais.
+- [x] Ordenar listas por A-Z como padrao.
+- [x] Adicionar ordenacao Z-A.
+- [x] Adicionar ordenacao por recentes/antigos onde a API tem data confiavel.
+- [x] Rodar validacao final.
