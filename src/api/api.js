@@ -31,3 +31,19 @@ export function GET_GAME_MODES() {
 export function GET_WEAPONS() {
   return createRequest(`/weapons?language=${LANGUAGE}`);
 }
+
+export function GET_WEAPON_SKIN(skinId) {
+  return createRequest(`/weapons/skins/${skinId}?language=${LANGUAGE}`);
+}
+
+export function GET_SPRAYS() {
+  return createRequest(`/sprays?language=${LANGUAGE}`);
+}
+
+export function GET_SPRAY(sprayId) {
+  return createRequest(`/sprays/${sprayId}?language=${LANGUAGE}`);
+}
+
+export function GET_CONTENT_TIERS() {
+  return createRequest(`/contenttiers?language=${LANGUAGE}`);
+}

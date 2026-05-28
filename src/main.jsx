@@ -9,6 +9,10 @@ import AgentDetails from './Pages/AgentDetails.jsx';
 import Maps from './Pages/Maps.jsx';
 import GameModes from './Pages/GameModes.jsx';
 import Weapons from './Pages/Weapons.jsx';
+import Skins from './Pages/Skins.jsx';
+import SkinDetails from './Pages/SkinDetails.jsx';
+import Sprays from './Pages/Sprays.jsx';
+import SprayDetails from './Pages/SprayDetails.jsx';
 import './index.css';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -41,6 +45,22 @@ const routers = createBrowserRouter([
       {
         path: '/armas',
         element: <Weapons />,
+      },
+      {
+        path: '/skins',
+        element: <Skins />,
+      },
+      {
+        path: '/skins/:skinId',
+        element: <SkinDetails />,
+      },
+      {
+        path: '/sprays',
+        element: <Sprays />,
+      },
+      {
+        path: '/sprays/:sprayId',
+        element: <SprayDetails />,
       },
       {
         path: '/contact',
