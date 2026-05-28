@@ -39,6 +39,7 @@ const Agents = () => {
               title={agent.displayName}
               description={agent.description}
               meta={`${agent.abilities?.length || 0} habilidades`}
+              to={`/agentes/${agent.uuid}`}
             />
           ))}
         </ul>

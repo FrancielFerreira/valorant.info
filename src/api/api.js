@@ -16,6 +16,10 @@ export function GET_AGENTS() {
   );
 }
 
+export function GET_AGENT(agentId) {
+  return createRequest(`/agents/${agentId}?language=${LANGUAGE}`);
+}
+
 export function GET_MAPS() {
   return createRequest(`/maps?language=${LANGUAGE}`);
 }
