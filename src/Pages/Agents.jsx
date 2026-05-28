@@ -20,13 +20,30 @@ const Agents = () => {
   if (loading) return <Loading />;
   if (data)
     return (
-      <>
-        <h1 className="text-red-500 text-3xl font-bold">Agentes</h1>
-        <ul className="grid gap-4 grid-cols-4 list-none">
-          {data &&
-            data.data.map((agent) => <Card key={agent.uuid} data={agent} />)}
+      <section className="space-y-6">
+        <div>
+          <p className="text-sm font-bold uppercase tracking-[0.28em] text-[#ffb3ba]">
+            Personagens jogaveis
+          </p>
+          <h1 className="mt-2 font-display text-5xl uppercase text-white">
+            Agentes
+          </h1>
+        </div>
+        <ul className="grid list-none gap-5 sm:grid-cols-2 xl:grid-cols-3">
+          {data.data.map((agent) => (
+            <Card
+              key={agent.uuid}
+              data={agent}
+              image={agent.bustPortrait || agent.fullPortrait}
+              eyebrow={agent.role?.displayName || 'Agente'}
+              title={agent.displayName}
+              description={agent.description}
+              meta={`${agent.abilities?.length || 0} habilidades`}
+              to={`/agentes/${agent.uuid}`}
+            />
+          ))}
         </ul>
-      </>
+      </section>
     );
   else return null;
 };

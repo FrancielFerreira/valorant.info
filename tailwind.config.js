@@ -2,7 +2,12 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        display: ['Russo One', 'system-ui', 'sans-serif'],
+        sans: ['Chakra Petch', 'system-ui', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 };

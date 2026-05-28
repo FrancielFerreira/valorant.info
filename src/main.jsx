@@ -5,6 +5,11 @@ import Home from './Pages/Home.jsx';
 import Contact from './Pages/Contact.jsx';
 import About from './Pages/About.jsx';
 import Agents from './Pages/Agents.jsx';
+import AgentDetails from './Pages/AgentDetails.jsx';
+import Maps from './Pages/Maps.jsx';
+import GameModes from './Pages/GameModes.jsx';
+import Weapons from './Pages/Weapons.jsx';
+import './index.css';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 const routers = createBrowserRouter([
@@ -20,6 +25,22 @@ const routers = createBrowserRouter([
       {
         path: '/agentes',
         element: <Agents />,
+      },
+      {
+        path: '/agentes/:agentId',
+        element: <AgentDetails />,
+      },
+      {
+        path: '/mapas',
+        element: <Maps />,
+      },
+      {
+        path: '/modos',
+        element: <GameModes />,
+      },
+      {
+        path: '/armas',
+        element: <Weapons />,
       },
       {
         path: '/contact',
