@@ -1,9 +1,5 @@
 # Plan
 
-1. Clonar o repositorio em `~/projetos/labs/valorant.info`.
-2. Validar baseline com install, lint e build.
-3. Remover dependencias desnecessarias.
-4. Criar rotas e paginas principais da wiki.
-5. Aplicar identidade visual inspirada em Valorant.
-6. Ajustar deploy SPA na Vercel.
-7. Validar lint e build.
+A fonte canonica deste documento agora fica em `specs/001-initial/plan.md`.
+
+Resumo: o projeto ja passou pelo MVP inicial, detalhes de agentes, skins/sprays e filtros de listagem. A proxima fase deve ser escolhida e quebrada em tarefas antes de codar.
