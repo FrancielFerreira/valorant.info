@@ -65,4 +65,36 @@ describe('ListControls', () => {
     expect(onSearchChange).toHaveBeenLastCalledWith('sage');
     expect(onSortChange).toHaveBeenCalledWith('za');
   });
+
+  it('renderiza filtros extras por select', async () => {
+    const user = userEvent.setup();
+    const onCategoryChange = vi.fn();
+
+    render(
+      <ListControls
+        search=""
+        onSearchChange={() => {}}
+        sort="az"
+        onSortChange={() => {}}
+        sortOptions={sortOptions}
+        filters={[
+          {
+            name: 'category',
+            label: 'Categoria',
+            value: 'Rifle',
+            onChange: onCategoryChange,
+            options: [
+              { value: 'all', label: 'Todas categorias' },
+              { value: 'Rifle', label: 'Fuzis' },
+            ],
+          },
+        ]}
+      />,
+    );
+
+    await user.selectOptions(screen.getByLabelText('Categoria'), 'all');
+
+    expect(screen.getByLabelText('Categoria')).toHaveValue('Rifle');
+    expect(onCategoryChange).toHaveBeenCalledWith('all');
+  });
 });

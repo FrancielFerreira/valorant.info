@@ -7,6 +7,11 @@
 - O projeto continua sem backend proprio; consumo direto da Valorant API e suficiente para o estado atual.
 - Validacao de codigo deve usar `npm run lint`, `npm run test` e `npm run build`.
 - Antes de novas features de produto, o projeto tera uma camada inicial de testes com Vitest e Testing Library.
+- Listagens grandes devem priorizar filtros por select e paginacao para reduzir excesso visual e volume de cards renderizados.
+- A paginacao usa 48 itens por pagina porque fica abaixo de 50 e fecha bem em grids responsivos de 2 ou 3 colunas.
+- Skins passam a aceitar `Todas armas`, combinada com categoria, para substituir o scroll horizontal por controles mais previsiveis.
+- Skins tambem podem ser filtradas por edicao/raridade usando `contentTierUuid`: Selecionada, Deluxe, Premium, Exclusiva, Ultra e Sem edicao.
+- A Valorant API nao expoe origem de aquisicao das skins; filtros como passe de batalha devem ser evitados sem mapeamento externo confiavel.
 
 ## Aprendizados
 
@@ -15,6 +20,9 @@
 - A primeira camada de testes deve focar em comportamento estavel e facil de entender: funcoes puras, componentes simples e interacoes basicas.
 - Componentes controlados em testes precisam simular o estado do componente pai para validar interacoes completas.
 - O setup de testes limpa o DOM depois de cada teste para evitar que renders anteriores afetem os proximos.
+- Filtros por select mantem a UI mais consistente entre armas, skins e sprays.
+- Agentes usam filtro por funcao a partir de `role.uuid`, mantendo os labels em `pt-BR` vindos da API.
+- Nem todo agrupamento visual do jogo esta disponivel diretamente na API; quando o dado nao existe, a documentacao deve explicitar a limitacao em vez de inferir.
 
 ## Problemas Encontrados
 
@@ -45,7 +53,7 @@ npm run preview
 
 ## Proximos Passos
 
-- Concluir a fase `Feature: Testes Iniciais` antes de novas features de produto.
-- Depois dos testes iniciais, escolher a proxima feature antes de codar.
-- Candidatas naturais: detalhes de mapas/armas/modos, melhoria de README/acessibilidade ou Docker/Devcontainer.
+- Concluir a fase `Feature: Filtros Por Categoria E Paginacao`.
+- Depois disso, escolher a proxima feature antes de codar.
+- Candidatas naturais: detalhes de mapas/armas/modos, melhoria de acessibilidade ou Docker/Devcontainer.
 - Criar branch de feature para qualquer mudanca nao trivial.

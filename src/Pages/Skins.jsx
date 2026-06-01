@@ -5,7 +5,18 @@ import Loading from '../Components/Helper/Loading';
 import Error from '../Components/Helper/Error';
 import Card from '../Components/Card';
 import ListControls from '../Components/ListControls';
-import { ALPHA_SORT_OPTIONS, filterByText, sortItems } from '../utils/listFilters';
+import Pagination from '../Components/Pagination';
+import {
+  ALPHA_SORT_OPTIONS,
+  WEAPON_CATEGORY_OPTIONS,
+  createContentTierOptions,
+  filterByContentTier,
+  filterByText,
+  filterByWeaponCategory,
+  getWeaponCategoryLabel,
+  paginateItems,
+  sortItems,
+} from '../utils/listFilters';
 
 function createTierMap(tiers) {
   return new Map(tiers.map((tier) => [tier.uuid, tier]));
@@ -13,6 +24,13 @@ function createTierMap(tiers) {
 
 function getSkinImage(skin) {
   return skin.displayIcon || skin.chromas?.find((chroma) => chroma.displayIcon)?.displayIcon;
+}
+
+function createWeaponOptions(weapons) {
+  return [
+    { value: 'all', label: 'Todas armas' },
+    ...weapons.map((weapon) => ({ value: weapon.uuid, label: weapon.displayName })),
+  ];
 }
 
 const Skins = () => {
@@ -30,9 +48,12 @@ const Skins = () => {
     error: tiersError,
     request: requestTiers,
   } = tiersFetch;
-  const [selectedWeapon, setSelectedWeapon] = React.useState('Vandal');
+  const [selectedCategory, setSelectedCategory] = React.useState('all');
+  const [selectedWeapon, setSelectedWeapon] = React.useState('all');
+  const [selectedTier, setSelectedTier] = React.useState('all');
   const [search, setSearch] = React.useState('');
   const [sort, setSort] = React.useState('az');
+  const [page, setPage] = React.useState(1);
 
   React.useEffect(() => {
     async function fetchSkinsData() {
@@ -46,6 +67,15 @@ const Skins = () => {
     fetchSkinsData();
   }, [requestWeapons, requestTiers]);
 
+  React.useEffect(() => {
+    setPage(1);
+  }, [search, sort, selectedCategory, selectedWeapon, selectedTier]);
+
+  function handleCategoryChange(value) {
+    setSelectedCategory(value);
+    setSelectedWeapon('all');
+  }
+
   if (weaponsError) return <Error error={weaponsError} />;
   if (tiersError) return <Error error={tiersError} />;
   if (weaponsLoading || tiersLoading) return <Loading />;
@@ -53,16 +83,34 @@ const Skins = () => {
 
   const weapons = weaponsData.data;
   const tierMap = createTierMap(tiersData.data);
-  const activeWeapon =
-    weapons.find((weapon) => weapon.displayName === selectedWeapon) || weapons[0];
+  const tierOptions = createContentTierOptions(tiersData.data);
+  const categoryWeapons = filterByWeaponCategory(weapons, selectedCategory);
+  const weaponOptions = createWeaponOptions(categoryWeapons);
+  const activeSelectedWeapon = weaponOptions.some(
+    (option) => option.value === selectedWeapon,
+  )
+    ? selectedWeapon
+    : 'all';
+  const visibleWeapons =
+    activeSelectedWeapon === 'all'
+      ? categoryWeapons
+      : categoryWeapons.filter((weapon) => weapon.uuid === activeSelectedWeapon);
   const skins = sortItems(
-    filterByText(
-      activeWeapon.skins.filter((skin) => getSkinImage(skin)),
-      search,
-      ['displayName'],
+    filterByContentTier(
+      filterByText(
+        visibleWeapons.flatMap((weapon) =>
+          weapon.skins
+            .filter((skin) => getSkinImage(skin))
+            .map((skin) => ({ ...skin, weaponName: weapon.displayName })),
+        ),
+        search,
+        ['displayName'],
+      ),
+      selectedTier,
     ),
     sort,
   );
+  const paginatedSkins = paginateItems(skins, page);
 
   return (
     <section className="space-y-6">
@@ -72,25 +120,8 @@ const Skins = () => {
         </p>
         <h1 className="mt-2 font-display text-5xl uppercase text-white">Skins</h1>
         <p className="mt-3 max-w-3xl text-slate-300">
-          Explore as skins por arma. O filtro evita carregar centenas de imagens de uma vez.
+          Explore skins por categoria e arma, com paginacao para evitar uma lista infinita de cards.
         </p>
-      </div>
-
-      <div className="flex gap-3 overflow-x-auto rounded-2xl border border-white/10 bg-black/25 p-3">
-        {weapons.map((weapon) => (
-          <button
-            key={weapon.uuid}
-            type="button"
-            onClick={() => setSelectedWeapon(weapon.displayName)}
-            className={`shrink-0 cursor-pointer rounded-xl border px-4 py-3 text-sm font-bold uppercase tracking-[0.16em] transition-colors duration-200 ${
-              activeWeapon.uuid === weapon.uuid
-                ? 'border-[#ff4655] bg-[#ff4655] text-white'
-                : 'border-white/10 bg-white/[0.04] text-slate-300 hover:border-[#ff4655]/70 hover:text-white'
-            }`}
-          >
-            {weapon.displayName}
-          </button>
-        ))}
       </div>
 
       <ListControls
@@ -99,11 +130,37 @@ const Skins = () => {
         sort={sort}
         onSortChange={setSort}
         sortOptions={ALPHA_SORT_OPTIONS}
-        placeholder="Buscar skin da arma selecionada"
+        filters={[
+          {
+            name: 'category',
+            label: 'Categoria',
+            value: selectedCategory,
+            onChange: handleCategoryChange,
+            options: WEAPON_CATEGORY_OPTIONS,
+          },
+          {
+            name: 'weapon',
+            label: 'Arma',
+            value: activeSelectedWeapon,
+            onChange: setSelectedWeapon,
+            options: weaponOptions,
+          },
+          {
+            name: 'tier',
+            label: 'Edicao',
+            value: selectedTier,
+            onChange: setSelectedTier,
+            options: tierOptions,
+          },
+        ]}
+        placeholder="Buscar skin"
       />
+      <p className="text-sm font-semibold text-slate-400">
+        {skins.length} skin(s) encontradas
+      </p>
 
       <ul className="grid list-none gap-5 sm:grid-cols-2 xl:grid-cols-3">
-        {skins.map((skin) => {
+        {paginatedSkins.items.map((skin) => {
           const tier = tierMap.get(skin.contentTierUuid);
 
           return (
@@ -111,7 +168,7 @@ const Skins = () => {
               key={skin.uuid}
               data={skin}
               image={getSkinImage(skin)}
-              eyebrow={activeWeapon.displayName}
+              eyebrow={skin.weaponName || getWeaponCategoryLabel(selectedCategory)}
               title={skin.displayName}
               description={tier?.displayName || 'Skin de arma'}
               meta={`${skin.chromas?.length || 0} chromas | ${skin.levels?.length || 0} niveis`}
@@ -120,6 +177,13 @@ const Skins = () => {
           );
         })}
       </ul>
+      <Pagination
+        page={paginatedSkins.page}
+        totalPages={paginatedSkins.totalPages}
+        totalItems={paginatedSkins.totalItems}
+        perPage={paginatedSkins.perPage}
+        onPageChange={setPage}
+      />
     </section>
   );
 };

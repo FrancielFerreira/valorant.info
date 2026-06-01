@@ -7,6 +7,8 @@ import Card from '../Components/Card';
 import ListControls from '../Components/ListControls';
 import {
   DATE_SORT_OPTIONS,
+  createAgentRoleOptions,
+  filterByAgentRole,
   filterByText,
   getValidDateValue,
   sortItems,
@@ -16,6 +18,7 @@ const Agents = () => {
   const { data, loading, error, request } = useFetch();
   const [search, setSearch] = React.useState('');
   const [sort, setSort] = React.useState('az');
+  const [role, setRole] = React.useState('all');
 
   React.useEffect(() => {
     async function fetchAgents() {
@@ -28,8 +31,12 @@ const Agents = () => {
   if (error) return <Error error={error} />;
   if (loading) return <Loading />;
   if (data) {
+    const roleOptions = createAgentRoleOptions(data.data);
     const agents = sortItems(
-      filterByText(data.data, search, ['displayName', 'description']),
+      filterByAgentRole(
+        filterByText(data.data, search, ['displayName', 'description']),
+        role,
+      ),
       sort,
       (agent) => getValidDateValue(agent.releaseDate),
     );
@@ -50,8 +57,20 @@ const Agents = () => {
           sort={sort}
           onSortChange={setSort}
           sortOptions={DATE_SORT_OPTIONS}
+          filters={[
+            {
+              name: 'role',
+              label: 'Funcao',
+              value: role,
+              onChange: setRole,
+              options: roleOptions,
+            },
+          ]}
           placeholder="Buscar agente"
         />
+        <p className="text-sm font-semibold text-slate-400">
+          {agents.length} agente(s) encontrados
+        </p>
         <ul className="grid list-none gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {agents.map((agent) => (
             <Card

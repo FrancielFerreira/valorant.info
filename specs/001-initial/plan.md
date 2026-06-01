@@ -17,6 +17,7 @@ Ultimo merge conhecido: `merge: add list search and sorting`.
 - `src/Pages/`: paginas de listagem e detalhes.
 - `src/Components/`: componentes compartilhados.
 - `src/utils/listFilters.js`: busca, normalizacao e ordenacao de listas.
+- `src/Components/Pagination.jsx`: paginacao reutilizavel para listas grandes.
 
 ## Validacao
 
@@ -36,12 +37,13 @@ Para documentacao pura, revisar `git diff` e garantir consistencia entre `brief`
 - Evitar backend ate haver necessidade real de cache, limites, analytics ou transformacao de dados.
 - Manter Tailwind inline nos componentes enquanto o design ainda esta pequeno.
 - Usar branches por feature para mudancas nao triviais.
+- Usar 48 itens por pagina em listas grandes, por ser menor que 50 e multiplo de 2 e 3 para o grid responsivo.
 
 ## Proximas Fases Possiveis
 
 1. Sincronizar documentacao com o Nobre SDD Workflow.
 2. Criar detalhes de mapas, armas e modos.
-3. Melhorar README, acessibilidade e estados vazios.
+3. Melhorar acessibilidade e estados vazios.
 4. Adicionar Docker/Devcontainer se o projeto virar estudo serio ou portfolio mais longo.
 5. Planejar testes automatizados se o app continuar crescendo.
 
