@@ -60,6 +60,24 @@
 - [x] Rodar `npm run lint`, `npm run test` e `npm run build`.
 - [x] Revisar `git diff` final.
 
+## Feature: Filtros Por Categoria E Paginacao
+
+- [x] Escolher fase antes de codar.
+- [x] Criar branch `feature/list-category-pagination`.
+- [x] Criar helpers reutilizaveis para categoria de armas e paginacao.
+- [x] Criar componente de paginacao responsivo.
+- [x] Expandir `ListControls` para aceitar filtros extras por select.
+- [x] Adicionar filtro por funcao na pagina de agentes.
+- [x] Adicionar filtro por categoria na pagina de armas.
+- [x] Trocar filtro horizontal de skins por selects de categoria e arma.
+- [x] Adicionar filtro confiavel de skins por edicao/raridade.
+- [x] Ajustar filtros da pagina de sprays para select junto da busca.
+- [x] Adicionar paginacao nas listagens grandes com ate 48 itens por pagina.
+- [x] Adicionar/atualizar testes de helpers e componentes.
+- [x] Atualizar documentacao e notas.
+- [x] Rodar `npm run lint`, `npm run test` e `npm run build`.
+- [x] Revisar `git diff` final.
+
 ## Proxima Feature De Produto A Definir
 
 - [ ] Escolher proxima fase de produto antes de codar.

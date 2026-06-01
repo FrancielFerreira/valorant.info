@@ -5,7 +5,13 @@ import Loading from '../Components/Helper/Loading';
 import Error from '../Components/Helper/Error';
 import Card from '../Components/Card';
 import ListControls from '../Components/ListControls';
-import { ALPHA_SORT_OPTIONS, filterByText, sortItems } from '../utils/listFilters';
+import Pagination from '../Components/Pagination';
+import {
+  ALPHA_SORT_OPTIONS,
+  filterByText,
+  paginateItems,
+  sortItems,
+} from '../utils/listFilters';
 
 function getSprayImage(spray) {
   return spray.fullTransparentIcon || spray.fullIcon || spray.displayIcon;
@@ -22,6 +28,7 @@ const Sprays = () => {
   const [filter, setFilter] = React.useState('all');
   const [search, setSearch] = React.useState('');
   const [sort, setSort] = React.useState('az');
+  const [page, setPage] = React.useState(1);
 
   React.useEffect(() => {
     async function fetchSprays() {
@@ -30,6 +37,10 @@ const Sprays = () => {
     }
     fetchSprays();
   }, [request]);
+
+  React.useEffect(() => {
+    setPage(1);
+  }, [filter, search, sort]);
 
   if (error) return <Error error={error} />;
   if (loading) return <Loading />;
@@ -50,6 +61,7 @@ const Sprays = () => {
     ),
     sort,
   );
+  const paginatedSprays = paginateItems(sprays, page);
 
   return (
     <section className="space-y-6">
@@ -60,34 +72,29 @@ const Sprays = () => {
         <h1 className="mt-2 font-display text-5xl uppercase text-white">Sprays</h1>
       </div>
 
-      <div className="flex flex-wrap gap-3 rounded-2xl border border-white/10 bg-black/25 p-3">
-        {filters.map((item) => (
-          <button
-            key={item.value}
-            type="button"
-            onClick={() => setFilter(item.value)}
-            className={`cursor-pointer rounded-xl border px-4 py-3 text-sm font-bold uppercase tracking-[0.16em] transition-colors duration-200 ${
-              filter === item.value
-                ? 'border-[#ff4655] bg-[#ff4655] text-white'
-                : 'border-white/10 bg-white/[0.04] text-slate-300 hover:border-[#ff4655]/70 hover:text-white'
-            }`}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
-
       <ListControls
         search={search}
         onSearchChange={setSearch}
         sort={sort}
         onSortChange={setSort}
         sortOptions={ALPHA_SORT_OPTIONS}
+        filters={[
+          {
+            name: 'type',
+            label: 'Tipo',
+            value: filter,
+            onChange: setFilter,
+            options: filters,
+          },
+        ]}
         placeholder="Buscar spray"
       />
+      <p className="text-sm font-semibold text-slate-400">
+        {sprays.length} spray(s) encontrados
+      </p>
 
       <ul className="grid list-none gap-5 sm:grid-cols-2 xl:grid-cols-3">
-        {sprays.map((spray) => (
+        {paginatedSprays.items.map((spray) => (
           <Card
             key={spray.uuid}
             data={spray}
@@ -100,6 +107,13 @@ const Sprays = () => {
           />
         ))}
       </ul>
+      <Pagination
+        page={paginatedSprays.page}
+        totalPages={paginatedSprays.totalPages}
+        totalItems={paginatedSprays.totalItems}
+        perPage={paginatedSprays.perPage}
+        onPageChange={setPage}
+      />
     </section>
   );
 };

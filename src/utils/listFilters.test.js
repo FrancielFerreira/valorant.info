@@ -1,8 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import {
+  NO_CONTENT_TIER_VALUE,
+  createAgentRoleOptions,
+  createContentTierOptions,
+  filterByAgentRole,
+  filterByContentTier,
+  filterByWeaponCategory,
   filterByText,
+  getWeaponCategoryLabel,
   getValidDateValue,
   normalizeText,
+  paginateItems,
   sortItems,
 } from './listFilters';
 
@@ -27,6 +35,33 @@ describe('listFilters', () => {
     const items = [{ displayName: 'Vandal' }, { displayName: 'Phantom' }];
 
     expect(filterByText(items, '   ')).toBe(items);
+  });
+
+  it('cria opcoes e filtra agentes por funcao', () => {
+    const agents = [
+      {
+        displayName: 'Omen',
+        role: { uuid: 'controller', displayName: 'Controlador' },
+      },
+      {
+        displayName: 'Raze',
+        role: { uuid: 'duelist', displayName: 'Duelista' },
+      },
+      {
+        displayName: 'Viper',
+        role: { uuid: 'controller', displayName: 'Controlador' },
+      },
+    ];
+
+    expect(createAgentRoleOptions(agents)).toEqual([
+      { value: 'all', label: 'Todas funcoes' },
+      { value: 'controller', label: 'Controlador' },
+      { value: 'duelist', label: 'Duelista' },
+    ]);
+    expect(filterByAgentRole(agents, 'controller')).toEqual([
+      agents[0],
+      agents[2],
+    ]);
   });
 
   it('ordena itens por A-Z e Z-A sem alterar a lista original', () => {
@@ -69,5 +104,44 @@ describe('listFilters', () => {
       'Antigo',
       'Sem data',
     ]);
+  });
+
+  it('filtra armas por categoria da API', () => {
+    const items = [
+      { displayName: 'Classic', category: 'EEquippableCategory::Sidearm' },
+      { displayName: 'Vandal', category: 'EEquippableCategory::Rifle' },
+      { displayName: 'Operator', category: 'EEquippableCategory::Sniper' },
+    ];
+
+    expect(filterByWeaponCategory(items, 'Rifle')).toEqual([items[1]]);
+    expect(getWeaponCategoryLabel(items[2].category)).toBe('Fuzis de precisao');
+  });
+
+  it('pagina itens usando limite seguro para grid', () => {
+    const items = Array.from({ length: 60 }, (_, index) => ({ id: index + 1 }));
+
+    expect(paginateItems(items, 1).items).toHaveLength(48);
+    expect(paginateItems(items, 2).items).toHaveLength(12);
+    expect(paginateItems(items, 99).page).toBe(2);
+  });
+
+  it('cria opcoes e filtra skins por edicao', () => {
+    const tiers = [
+      { uuid: 'premium', displayName: 'Edicao Premium', rank: 2 },
+      { uuid: 'select', displayName: 'Edicao Selecionada', rank: 0 },
+    ];
+    const skins = [
+      { displayName: 'Skin Premium', contentTierUuid: 'premium' },
+      { displayName: 'Skin Padrao', contentTierUuid: null },
+    ];
+
+    expect(createContentTierOptions(tiers).map((option) => option.value)).toEqual([
+      'all',
+      'select',
+      'premium',
+      NO_CONTENT_TIER_VALUE,
+    ]);
+    expect(filterByContentTier(skins, 'premium')).toEqual([skins[0]]);
+    expect(filterByContentTier(skins, NO_CONTENT_TIER_VALUE)).toEqual([skins[1]]);
   });
 });

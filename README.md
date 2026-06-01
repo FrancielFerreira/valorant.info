@@ -5,11 +5,13 @@ Wiki brasileira de Valorant feita com React, Vite e Tailwind CSS, consumindo dad
 ## Funcionalidades
 
 - Home com atalhos para as secoes principais.
-- Listagem e detalhes de agentes.
+- Listagem de agentes por funcao e detalhes de agentes.
 - Listagem de mapas, modos de jogo e armas.
-- Listagem de skins por arma e detalhes de skins.
+- Listagem de armas com filtro por categoria.
+- Listagem de skins por categoria, arma, edicao e detalhes de skins.
 - Listagem de sprays por tipo e detalhes de sprays.
 - Busca e ordenacao nas listagens.
+- Paginacao em listagens grandes.
 - Estados de loading e erro.
 - Rewrite para rotas SPA na Vercel.
 

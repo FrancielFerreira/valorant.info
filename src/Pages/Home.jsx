@@ -21,6 +21,16 @@ const sections = [
     description: 'Categorias, custos e informacoes principais do arsenal.',
     to: '/armas',
   },
+  {
+    title: 'Skins',
+    description: 'Colecoes cosmeticas por arma, categoria e edicao.',
+    to: '/skins',
+  },
+  {
+    title: 'Sprays',
+    description: 'Cosmeticos de expressao com filtros por tipo.',
+    to: '/sprays',
+  },
 ];
 
 const Home = () => {
@@ -35,8 +45,8 @@ const Home = () => {
           Wiki brasileira de Valorant
         </h2>
         <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-          Consulte informacoes essenciais de agentes, mapas, modos de jogo e
-          armas usando dados publicos da Valorant API.
+          Consulte informacoes essenciais de agentes, mapas, modos de jogo,
+          armas, skins e sprays usando dados publicos da Valorant API.
         </p>
         <Link
           to="/agentes"
@@ -46,7 +56,7 @@ const Home = () => {
         </Link>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {sections.map((section) => (
           <Link
             key={section.to}

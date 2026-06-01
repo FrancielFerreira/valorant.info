@@ -29,8 +29,14 @@
 - Enquanto a API carrega, o usuario ve estado de loading.
 - Se a API falha, o usuario ve estado de erro.
 - Listagens com busca devem filtrar ignorando maiusculas/minusculas e acentos.
+- Agentes devem permitir filtro por funcao: controlador, duelista, iniciador e sentinela, conforme dados retornados pela API.
 - Ordenacao A-Z deve ser padrao.
 - Ordenacao por data deve ignorar datas invalidas ou placeholder `1970-01-01`.
+- Armas devem permitir filtro por categoria: pistolas, submetralhadoras, escopetas, fuzis, fuzis de precisao, metralhadoras e corpo a corpo.
+- Skins devem permitir filtro por categoria de arma, arma especifica e edicao/raridade via `contentTierUuid`.
+- Skins sem `contentTierUuid` devem aparecer como `Sem edicao`, sem assumir que vieram de passe de batalha.
+- Sprays devem permitir filtro por tipo em select.
+- Listagens grandes devem paginar com 48 itens por pagina.
 - Cards navegaveis devem usar React Router, sem recarregar a pagina.
 
 ## Design
