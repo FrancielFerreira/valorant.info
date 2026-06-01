@@ -78,6 +78,18 @@
 - [x] Rodar `npm run lint`, `npm run test` e `npm run build`.
 - [x] Revisar `git diff` final.
 
+## Feature: Cache De API
+
+- [x] Escolher fase antes de codar.
+- [x] Criar branch `feature/api-cache`.
+- [x] Implementar cache em memoria por request no `useFetch`.
+- [x] Deduplicar requests simultaneos para a mesma URL/opcoes.
+- [x] Garantir que erros nao sejam salvos em cache.
+- [x] Adicionar testes para cache, deduplicacao e erro.
+- [x] Atualizar documentacao e notas sobre limites do cache.
+- [x] Rodar `npm run lint`, `npm run test` e `npm run build`.
+- [x] Revisar `git diff` final.
+
 ## Proxima Feature De Produto A Definir
 
 - [ ] Escolher proxima fase de produto antes de codar.

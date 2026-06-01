@@ -27,6 +27,7 @@ Manter uma wiki MVP expandida de Valorant com navegacao clara, dados principais 
 - Listagens devem permitir busca textual quando aplicavel.
 - Listagens devem ordenar A-Z e Z-A; quando houver data confiavel, tambem recentes/antigos.
 - Listagens grandes devem usar paginacao para evitar excesso de cards renderizados.
+- App deve evitar chamadas repetidas para a mesma URL durante a mesma sessao de navegacao.
 - App deve exibir estados de loading e erro em chamadas de API.
 
 ## Requisitos Nao Funcionais
@@ -43,6 +44,7 @@ Manter uma wiki MVP expandida de Valorant com navegacao clara, dados principais 
 - Favoritos.
 - Banco de dados proprio.
 - Backend/cache serverless.
+- Cache persistente entre sessoes.
 - Comparacao avancada entre armas, skins ou agentes.
 - Testes automatizados E2E, ate uma fase especifica de qualidade ser planejada.
 
@@ -61,4 +63,5 @@ Manter uma wiki MVP expandida de Valorant com navegacao clara, dados principais 
 - Usar selects consistentes para filtros de categoria, arma e tipo.
 - Usar `contentTierUuid` para filtros confiaveis de edicao/raridade das skins.
 - Limitar listas grandes a 48 itens por pagina, preservando grids de 2 ou 3 colunas.
+- Usar cache em memoria no frontend para respostas bem-sucedidas da API, sem salvar erros.
 - Atualizar docs antes e depois de cada fase de feature.

@@ -14,6 +14,7 @@ Wiki brasileira de Valorant feita com React, Vite e Tailwind CSS, consumindo dad
 - Paginacao em listagens grandes.
 - Estados de loading e erro.
 - Rewrite para rotas SPA na Vercel.
+- Cache em memoria para reduzir requests repetidos durante a mesma sessao.
 
 ## Stack
 

@@ -72,3 +72,6 @@ Uma camada de cache serverless pode ser adicionada futuramente se o projeto cres
 - Paginas devem retornar `Loading` durante chamadas.
 - Paginas devem retornar `Error` quando a chamada falhar.
 - Paginas devem retornar `null` quando ainda nao ha dados nem loading ativo.
+- `useFetch` deve manter cache em memoria por URL/metodo para evitar requests repetidos durante a mesma sessao.
+- Requests simultaneos para a mesma URL/metodo devem compartilhar a mesma promise.
+- Respostas com erro nao devem ser persistidas no cache.

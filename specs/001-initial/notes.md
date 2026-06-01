@@ -12,6 +12,8 @@
 - Skins passam a aceitar `Todas armas`, combinada com categoria, para substituir o scroll horizontal por controles mais previsiveis.
 - Skins tambem podem ser filtradas por edicao/raridade usando `contentTierUuid`: Selecionada, Deluxe, Premium, Exclusiva, Ultra e Sem edicao.
 - A Valorant API nao expoe origem de aquisicao das skins; filtros como passe de batalha devem ser evitados sem mapeamento externo confiavel.
+- O app deve evitar requests repetidos para a Valorant API durante a mesma sessao usando cache em memoria no frontend.
+- O cache de API e intencionalmente em memoria: reduz requests durante a navegacao, mas e limpo ao recarregar a pagina.
 
 ## Aprendizados
 
@@ -23,6 +25,7 @@
 - Filtros por select mantem a UI mais consistente entre armas, skins e sprays.
 - Agentes usam filtro por funcao a partir de `role.uuid`, mantendo os labels em `pt-BR` vindos da API.
 - Nem todo agrupamento visual do jogo esta disponivel diretamente na API; quando o dado nao existe, a documentacao deve explicitar a limitacao em vez de inferir.
+- Cache de respostas bem-sucedidas deve ser separado de requests em andamento para tambem deduplicar chamadas simultaneas.
 
 ## Problemas Encontrados
 

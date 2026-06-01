@@ -14,6 +14,7 @@ Ultimo merge conhecido: `merge: add list search and sorting`.
 - `src/App.jsx`: layout base com header, aside, outlet e footer.
 - `src/api/api.js`: fabrica de requests da Valorant API.
 - `src/Hooks/useFetch.jsx`: hook de fetch reutilizavel.
+- `src/Hooks/useFetch.jsx`: tambem centraliza cache em memoria e deduplicacao de requests para a API.
 - `src/Pages/`: paginas de listagem e detalhes.
 - `src/Components/`: componentes compartilhados.
 - `src/utils/listFilters.js`: busca, normalizacao e ordenacao de listas.
@@ -35,6 +36,7 @@ Para documentacao pura, revisar `git diff` e garantir consistencia entre `brief`
 
 - Manter consumo direto da Valorant API no frontend por enquanto.
 - Evitar backend ate haver necessidade real de cache, limites, analytics ou transformacao de dados.
+- Usar cache em memoria antes de considerar dependencia externa ou backend/cache serverless.
 - Manter Tailwind inline nos componentes enquanto o design ainda esta pequeno.
 - Usar branches por feature para mudancas nao triviais.
 - Usar 48 itens por pagina em listas grandes, por ser menor que 50 e multiplo de 2 e 3 para o grid responsivo.
