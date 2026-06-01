@@ -1,7 +1,5 @@
 # Brief
 
-Valorant Info e uma wiki brasileira de hobby para consultar informacoes principais de Valorant.
+A fonte canonica deste documento agora fica em `specs/001-initial/brief.md`.
 
-Escopo inicial: agentes, mapas, modos de jogo e armas usando a Valorant API publica.
-
-O projeto deve priorizar uma experiencia visual inspirada no jogo, responsiva e simples de manter.
+Resumo: Valorant Info e uma wiki brasileira de hobby/portfolio para consultar informacoes principais de Valorant com React, Vite, Tailwind CSS e Valorant API publica.
